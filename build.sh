@@ -67,6 +67,13 @@ if [ ! -f $GOPATH/bin/terraform-provider-influxdb ]; then
     gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/provider-influxdb
 fi
 
+# grafana provider
+if [ ! -f $GOPATH/bin/terraform-provider-grafana ]; then
+    git checkout grafana-provider
+    go get github.com/hashicorp/terraform/builtin/bins/provider-grafana
+    gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/provider-grafana
+fi
+
 # new build of the terraform provider to include the terraform_synthetic_state resource
 # this one intentionally clobbers the one in the standard build
 git checkout synth-state
