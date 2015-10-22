@@ -1,5 +1,6 @@
 #!/bin/bash -xe
 
+export BASE_VERSION="1373a6086ba14b8d09cd3797346272b5a6eb37cd"
 export GOPATH="$PWD/gopath"
 export PATH="$GOPATH/bin:$PATH"
 export DISTDIR="$PWD/dist"
@@ -20,8 +21,8 @@ go get -v github.com/hashicorp/terraform
 gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_MAIN_TEMPLATE" github.com/hashicorp/terraform
 
 cd $GOPATH/src/github.com/hashicorp/terraform
-git checkout master
-git reset --hard origin/master
+git fetch origin
+git checkout $BASE_VERSION
 
 # Build the standard plugins
 go get -v github.com/hashicorp/terraform/builtin/bins/...
