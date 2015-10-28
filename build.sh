@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 
-export BASE_VERSION="1373a6086ba14b8d09cd3797346272b5a6eb37cd"
+export BASE_VERSION="v0.6.6"
 export GOPATH="$PWD/gopath"
 export PATH="$GOPATH/bin:$PATH"
 export DISTDIR="$PWD/dist"
