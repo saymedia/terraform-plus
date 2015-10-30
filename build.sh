@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 
-export BASE_VERSION="v0.6.6"
+export BASE_VERSION="5550ab51923dbbf6b4cb681dcf051e54d527f30d"
 export PLUS_VERSION="0.3"
 export GOPATH="$PWD/gopath"
 export PATH="$GOPATH/bin:$PATH"
@@ -68,13 +68,6 @@ if [ ! -f $GOPATH/bin/terraform-provider-mysql ]; then
     git checkout mysql-provider
     go get github.com/hashicorp/terraform/builtin/bins/provider-mysql
     gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/provider-mysql
-fi
-
-# tls provider
-if [ ! -f $GOPATH/bin/terraform-provider-tls ]; then
-    git checkout tls
-    go get github.com/hashicorp/terraform/builtin/bins/provider-tls
-    gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/provider-tls
 fi
 
 # influxdb provider
