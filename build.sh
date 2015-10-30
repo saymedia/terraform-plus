@@ -32,13 +32,6 @@ gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/ha
 git remote add apparentlymart git@github.com:apparentlymart/terraform.git || true
 git fetch apparentlymart
 
-# stateful_provisioning resource
-if [ ! -f $GOPATH/bin/terraform-provider-stateful ]; then
-    git checkout app-deploy
-    go get github.com/hashicorp/terraform/builtin/bins/provider-stateful
-    gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/provider-stateful
-fi
-
 # chef provider
 if [ ! -f $GOPATH/bin/terraform-provider-chef ]; then
     git checkout chef-provider
