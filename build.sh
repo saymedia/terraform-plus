@@ -20,19 +20,19 @@ go get github.com/mitchellh/gox
 
 go get -u -v github.com/hashicorp/terraform
 
-cd $GOPATH/src/github.com/hashicorp/terraform
+cd "$GOPATH/src/github.com/hashicorp/terraform"
 git clean -dfx
 git reset --hard
 git fetch origin
 git checkout $BASE_VERSION
 
 # Adjust the version number to include our PLUS_VERSION
-BASE_VERSION_GIVEN=`perl -ne '/"(\d+\.\d+\.\d+)"/ && print $1' $GOPATH/src/github.com/hashicorp/terraform/terraform/version.go`
+BASE_VERSION_GIVEN=$(perl -ne '/"(\d+\.\d+\.\d+)"/ && print $1' "$GOPATH/src/github.com/hashicorp/terraform/terraform/version.go")
 FULL_PLUS_VERSION="$BASE_VERSION_GIVEN+$PLUS_VERSION"
 echo "--- Building TerraformPlus $FULL_PLUS_VERSION"
 echo "--- Based on Terraform commitish $BASE_VERSION"
 
-cat >$GOPATH/src/github.com/hashicorp/terraform/terraform/version.go <<EOF
+cat >"$GOPATH/src/github.com/hashicorp/terraform/terraform/version.go" <<EOF
 package terraform
 
 // Modified version.go for terraform-plus
@@ -57,28 +57,28 @@ git remote add apparentlymart git@github.com:apparentlymart/terraform.git || tru
 git fetch apparentlymart
 
 # chef provider
-if [ ! -f $GOPATH/bin/terraform-provider-chef ]; then
+if [ ! -f "$GOPATH/bin/terraform-provider-chef" ]; then
     git checkout chef-provider
     go get -v github.com/hashicorp/terraform/builtin/bins/provider-chef
     gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/provider-chef
 fi
 
 # mysql provider
-if [ ! -f $GOPATH/bin/terraform-provider-mysql ]; then
+if [ ! -f "$GOPATH/bin/terraform-provider-mysql" ]; then
     git checkout mysql-provider
     go get -v github.com/hashicorp/terraform/builtin/bins/provider-mysql
     gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/provider-mysql
 fi
 
 # influxdb provider
-if [ ! -f $GOPATH/bin/terraform-provider-influxdb ]; then
+if [ ! -f "$GOPATH/bin/terraform-provider-influxdb" ]; then
     git checkout influxdb-provider
     go get -v github.com/hashicorp/terraform/builtin/bins/provider-influxdb
     gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/provider-influxdb
 fi
 
 # grafana provider
-if [ ! -f $GOPATH/bin/terraform-provider-grafana ]; then
+if [ ! -f "$GOPATH/bin/terraform-provider-grafana" ]; then
     git checkout grafana-provider
     go get -v github.com/hashicorp/terraform/builtin/bins/provider-grafana
     gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/provider-grafana
@@ -94,8 +94,8 @@ go get github.com/saymedia/terraform-beanstalk/terraform-provider-beanstalk
 gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_MAIN_TEMPLATE" github.com/saymedia/terraform-beanstalk/terraform-provider-beanstalk
 
 # ZZZZZZZZZZZZZZZZZZZZIPPIT
-cd $DISTDIR/linux
-zip ../terraform-linux.zip *
+cd "$DISTDIR/linux"
+zip ../terraform-linux.zip ./*
 
-cd $DISTDIR/darwin
-zip ../terraform-darwin.zip *
+cd "$DISTDIR/darwin"
+zip ../terraform-darwin.zip ./*
