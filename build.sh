@@ -43,14 +43,14 @@ EOF
 # Build Terraform itself
 gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_MAIN_TEMPLATE" github.com/hashicorp/terraform
 
+# Remove our overridden version.go so we don't get conflicts as we
+# build the plugins and switch branches.
+git clean -dfx
+git reset --hard
+
 # Build the standard plugins
 go get -u -v github.com/hashicorp/terraform/builtin/bins/...
 gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/...
-
-# Remove our overridden version.go so we don't get conflicts as we
-# switch branches.
-git clean -dfx
-git reset --hard
 
 # No we'll work on the plugins that are waiting to be merged into the main Terraform repo.
 git remote add apparentlymart git@github.com:apparentlymart/terraform.git || true
