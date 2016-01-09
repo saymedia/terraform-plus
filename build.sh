@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 
-export BASE_VERSION="v0.6.8"
+export BASE_VERSION="v0.6.9"
 export PLUS_VERSION="0.1"
 export GOPATH="$PWD/gopath"
 export PATH="$GOPATH/bin:$PATH"
@@ -55,20 +55,6 @@ gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/ha
 # No we'll work on the plugins that are waiting to be merged into the main Terraform repo.
 git remote add apparentlymart git@github.com:apparentlymart/terraform.git || true
 git fetch apparentlymart
-
-# chef provider
-if [ ! -f "$GOPATH/bin/terraform-provider-chef" ]; then
-    git checkout chef-provider
-    go get -v github.com/hashicorp/terraform/builtin/bins/provider-chef
-    gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/provider-chef
-fi
-
-# mysql provider
-if [ ! -f "$GOPATH/bin/terraform-provider-mysql" ]; then
-    git checkout mysql-provider
-    go get -v github.com/hashicorp/terraform/builtin/bins/provider-mysql
-    gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/provider-mysql
-fi
 
 # influxdb provider
 if [ ! -f "$GOPATH/bin/terraform-provider-influxdb" ]; then
