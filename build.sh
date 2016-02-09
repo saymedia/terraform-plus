@@ -1,12 +1,15 @@
 #!/bin/bash -xe
 
-export BASE_VERSION="v0.6.10"
+export BASE_VERSION="v0.6.11"
 export PLUS_VERSION="0.1"
 export GOPATH="$PWD/gopath"
 export PATH="$GOPATH/bin:$PATH"
 export DISTDIR="$PWD/dist"
 export WORKDIR="$PWD"
 mkdir -p "$GOPATH"
+
+# Use vendored dependencies
+export GO15VENDOREXPERIMENT=1
 
 export GOX_MAIN_TEMPLATE="$DISTDIR/{{.OS}}/{{.Dir}}"
 export GOX_PLUGIN_TEMPLATE="$DISTDIR/{{.OS}}/terraform-{{.Dir}}"
@@ -50,7 +53,7 @@ git reset --hard
 
 # Build the standard plugins
 go get -u -v github.com/hashicorp/terraform/builtin/bins/...
-gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/...
+gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" $(go list github.com/hashicorp/terraform/builtin/bins/... | grep -v /vendor/)
 
 # No we'll work on the plugins that are waiting to be merged into the main Terraform repo.
 git remote add apparentlymart git@github.com:apparentlymart/terraform.git || true
