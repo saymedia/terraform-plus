@@ -82,6 +82,10 @@ gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/ha
 go get github.com/saymedia/terraform-beanstalk/terraform-provider-beanstalk
 gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_MAIN_TEMPLATE" github.com/saymedia/terraform-beanstalk/terraform-provider-beanstalk
 
+# out-of-tree buildkite provider
+go get github.com/saymedia/terraform-buildkite/terraform-provider-buildkite
+gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_MAIN_TEMPLATE" github.com/saymedia/terraform-buildkite/terraform-provider-buildkite
+
 # ZZZZZZZZZZZZZZZZZZZZIPPIT
 cd "$DISTDIR/linux"
 zip ../terraform-linux.zip ./*
