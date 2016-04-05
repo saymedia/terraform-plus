@@ -12,7 +12,7 @@ mkdir -p "$GOPATH"
 export GOX_MAIN_TEMPLATE="$DISTDIR/{{.OS}}/{{.Dir}}"
 export GOX_PLUGIN_TEMPLATE="$DISTDIR/{{.OS}}/terraform-{{.Dir}}"
 export GOX_ARCH="amd64"
-export GOX_OS="linux darwin"
+export GOX_OS=${*:-"linux darwin"}
 
 # We'll use gox to cross-compile
 go get github.com/mitchellh/gox
