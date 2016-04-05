@@ -9,9 +9,6 @@ export DISTDIR="$PWD/dist"
 export WORKDIR="$PWD"
 mkdir -p "$GOPATH"
 
-# Use vendored dependencies
-export GO15VENDOREXPERIMENT=1
-
 export GOX_MAIN_TEMPLATE="$DISTDIR/{{.OS}}/{{.Dir}}"
 export GOX_PLUGIN_TEMPLATE="$DISTDIR/{{.OS}}/terraform-{{.Dir}}"
 export GOX_ARCH="amd64"
