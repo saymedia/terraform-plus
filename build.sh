@@ -1,4 +1,5 @@
-#!/bin/bash -xe
+#!/usr/bin/env bash
+set -ex
 
 export BASE_VERSION="v0.6.12"
 export PLUS_VERSION="0.1"
