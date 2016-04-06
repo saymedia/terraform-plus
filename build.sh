@@ -51,7 +51,6 @@ git clean -dfx
 git reset --hard
 
 # Build the standard plugins
-go get -u -v github.com/hashicorp/terraform/builtin/bins/...
 gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" $(go list github.com/hashicorp/terraform/builtin/bins/... | grep -v /vendor/)
 
 # No we'll work on the plugins that are waiting to be merged into the main Terraform repo.
