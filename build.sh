@@ -57,13 +57,6 @@ gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" $(go list git
 git remote add apparentlymart git@github.com:apparentlymart/terraform.git || true
 git fetch apparentlymart
 
-# influxdb provider
-if [ ! -f "$GOPATH/bin/terraform-provider-influxdb" ]; then
-    git checkout influxdb-provider
-    go get -v github.com/hashicorp/terraform/builtin/bins/provider-influxdb
-    gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/provider-influxdb
-fi
-
 # grafana provider
 if [ ! -f "$GOPATH/bin/terraform-provider-grafana" ]; then
     git checkout grafana-provider
