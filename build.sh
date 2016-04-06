@@ -91,7 +91,11 @@ git checkout master
 git branch -d $PLUS_WORKING_BRANCH
 
 # ZZZZZZZZZZZZZZZZZZZZIPPIT
+echo "--- Build done"
 for os in $GOX_OS; do
+    echo "--- Zipping $os"
     cd "$DISTDIR/$os"
     zip ../terraform-$os.zip ./*
 done
+echo "--- DING! Fries are done"
+exit 0
