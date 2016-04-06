@@ -25,13 +25,13 @@ cd "$GOPATH/src/github.com/hashicorp/terraform"
 git clean -dfx
 git reset --hard
 git fetch origin
-git checkout $BASE_VERSION
+git checkout tags/$BASE_VERSION
 
 # Adjust the version number to include our PLUS_VERSION
 BASE_VERSION_GIVEN=$(perl -ne '/"(\d+\.\d+\.\d+)"/ && print $1' "$GOPATH/src/github.com/hashicorp/terraform/terraform/version.go")
 FULL_PLUS_VERSION="$BASE_VERSION_GIVEN+$PLUS_VERSION"
 echo "--- Building TerraformPlus $FULL_PLUS_VERSION"
-echo "--- Based on Terraform commitish $BASE_VERSION"
+echo "--- Based on Terraform tag $BASE_VERSION"
 
 cat >"$GOPATH/src/github.com/hashicorp/terraform/terraform/version.go" <<EOF
 package terraform
