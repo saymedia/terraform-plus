@@ -77,9 +77,8 @@ gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_MAIN_TEMPLATE" github.com/saym
 go get github.com/saymedia/terraform-buildkite/terraform-provider-buildkite
 gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_MAIN_TEMPLATE" github.com/saymedia/terraform-buildkite/terraform-provider-buildkite
 
-# ZZZZZZZZZZZZZZZZZZZZIPPIT
-cd "$DISTDIR/linux"
-zip ../terraform-linux.zip ./*
+# put terraform.git into an expected state
+git checkout master
 
 # ZZZZZZZZZZZZZZZZZZZZIPPIT
 for os in $GOX_OS; do
