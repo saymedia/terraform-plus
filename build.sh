@@ -4,6 +4,7 @@ IFS=$' \n\t'
 
 export BASE_VERSION="v0.6.12"
 export PLUS_VERSION="0.1"
+export PLUS_WORKING_BRANCH="terraform-plus-$BASE_VERSION-$PLUS_VERSION"
 export GOPATH="$PWD/gopath"
 export PATH="$GOPATH/bin:$PATH"
 export DISTDIR="$PWD/dist"
@@ -26,7 +27,7 @@ cd "$GOPATH/src/github.com/hashicorp/terraform"
 git clean -dfx
 git reset --hard
 git fetch origin
-git checkout tags/$BASE_VERSION
+git checkout -B $PLUS_WORKING_BRANCH tags/$BASE_VERSION
 
 # Adjust the version number to include our PLUS_VERSION
 BASE_VERSION_GIVEN=$(perl -ne '/"(\d+\.\d+\.\d+)"/ && print $1' "$GOPATH/src/github.com/hashicorp/terraform/terraform/version.go")
@@ -66,19 +67,28 @@ fi
 
 # new build of the terraform provider to include the terraform_synthetic_state resource
 # this one intentionally clobbers the one in the standard build
-git checkout synth-state
+git checkout $PLUS_WORKING_BRANCH
+# the synth-state branch was before HashiCorp started vendoring packages so instead of 
+# checking out the branch we'll cherry-pick the relevant commit. This is brittle and 
+# will break eventually.
+git cherry-pick -n remotes/apparentlymart/synth-state
 gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_PLUGIN_TEMPLATE" github.com/hashicorp/terraform/builtin/bins/provider-terraform
+git clean -dfx
+git reset --hard
 
 # out-of-tree beanstalk provider
+git checkout $PLUS_WORKING_BRANCH
 go get github.com/saymedia/terraform-beanstalk/terraform-provider-beanstalk
 gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_MAIN_TEMPLATE" github.com/saymedia/terraform-beanstalk/terraform-provider-beanstalk
 
 # out-of-tree buildkite provider
+git checkout $PLUS_WORKING_BRANCH
 go get github.com/saymedia/terraform-buildkite/terraform-provider-buildkite
 gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_MAIN_TEMPLATE" github.com/saymedia/terraform-buildkite/terraform-provider-buildkite
 
 # put terraform.git into an expected state
 git checkout master
+git branch -d $PLUS_WORKING_BRANCH
 
 # ZZZZZZZZZZZZZZZZZZZZIPPIT
 for os in $GOX_OS; do
