@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -ex
+IFS=$' \n\t'
 
 export BASE_VERSION="v0.6.12"
 export PLUS_VERSION="0.1"
@@ -88,5 +89,8 @@ gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_MAIN_TEMPLATE" github.com/saym
 cd "$DISTDIR/linux"
 zip ../terraform-linux.zip ./*
 
-cd "$DISTDIR/darwin"
-zip ../terraform-darwin.zip ./*
+# ZZZZZZZZZZZZZZZZZZZZIPPIT
+for os in $GOX_OS; do
+    cd "$DISTDIR/$os"
+    zip ../terraform-$os.zip ./*
+done
