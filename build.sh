@@ -3,7 +3,7 @@ set -ex
 IFS=$' \n\t'
 
 export BASE_VERSION="v0.6.14"
-export PLUS_VERSION="0.1"
+export PLUS_VERSION="0.2"
 export PLUS_WORKING_BRANCH="terraform-plus-$BASE_VERSION-$PLUS_VERSION"
 export GOPATH="$PWD/gopath"
 export PATH="$GOPATH/bin:$PATH"
