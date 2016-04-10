@@ -95,7 +95,10 @@ echo "--- Build done"
 for os in $GOX_OS; do
     echo "--- Zipping $os"
     cd "$DISTDIR/$os"
-    zip ../terraform-$os.zip ./*
+    zip ../terraform-plus-v"$FULL_PLUS_VERSION"-"$os".zip ./*
 done
 echo "--- DING! Fries are done"
+if [[ -e "$DISTDIR/terraform-plus-v$FULL_PLUS_VERSION-darwin.zip" ]]; then
+    openssl dgst -sha256 "$DISTDIR/terraform-plus-v$FULL_PLUS_VERSION-darwin.zip"
+fi
 exit 0
