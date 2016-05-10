@@ -77,13 +77,15 @@ git clean -dfx
 git reset --hard
 
 # out-of-tree beanstalk provider
-git checkout $PLUS_WORKING_BRANCH
+git checkout master
 go get -u -v github.com/saymedia/terraform-beanstalk/terraform-provider-beanstalk
+git checkout $PLUS_WORKING_BRANCH
 gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_MAIN_TEMPLATE" github.com/saymedia/terraform-beanstalk/terraform-provider-beanstalk
 
 # out-of-tree buildkite provider
-git checkout $PLUS_WORKING_BRANCH
+git checkout master
 go get -u -v github.com/saymedia/terraform-buildkite/terraform-provider-buildkite
+git checkout $PLUS_WORKING_BRANCH
 gox -arch="$GOX_ARCH" -os="$GOX_OS" -output="$GOX_MAIN_TEMPLATE" github.com/saymedia/terraform-buildkite/terraform-provider-buildkite
 
 # put terraform.git into an expected state
