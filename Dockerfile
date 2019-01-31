@@ -1,5 +1,35 @@
 FROM hashicorp/terraform:0.11.9
 
+ENV GRAFANA_VERSION=1.3.0
+ENV GRAFANA_FILE=terraform-provider-grafana_${GRAFANA_VERSION}_linux_amd64.zip
+ENV GRAFANA_SHA=021a5bb8e267343197a495c4e74ae9546aa66d749173d7845ce814c415bafda1
+
+RUN mkdir -p ~/.terraform.d/plugins && \
+    curl https://releases.hashicorp.com/terraform-provider-grafana/${GRAFANA_VERSION}/${GRAFANA_FILE} > ${GRAFANA_FILE} && \
+    echo "${GRAFANA_SHA}  ${GRAFANA_FILE}" | sha256sum -c - && \
+    unzip ${GRAFANA_FILE} -d ~/.terraform.d/plugins && \
+    rm -f ${GRAFANA_FILE}
+
+ENV INFLUXDB_VERSION=1.0.3
+ENV INFLUXDB_FILE=terraform-provider-influxdb_${INFLUXDB_VERSION}_linux_amd64.zip
+ENV INFLUXDB_SHA=8bc3733af361fc659fcb7f9580afcd9273408a71c652ad2a9ae04fdea60a15e2
+
+RUN mkdir -p ~/.terraform.d/plugins && \
+    curl https://releases.hashicorp.com/terraform-provider-influxdb/${INFLUXDB_VERSION}/${INFLUXDB_FILE} > ${INFLUXDB_FILE} && \
+    echo "${INFLUXDB_SHA}  ${INFLUXDB_FILE}" | sha256sum -c - && \
+    unzip ${INFLUXDB_FILE} -d ~/.terraform.d/plugins && \
+    rm -f ${INFLUXDB_FILE}
+
+ENV RUNDECK_VERSION=0.1.0
+ENV RUNDECK_FILE=terraform-provider-rundeck_${RUNDECK_VERSION}_linux_amd64.zip
+ENV RUNDECK_SHA=442a7a23e172dc1f736ecd20cabe45ca27f47209c8ab24aa0424ecf2c539fc87
+
+RUN mkdir -p ~/.terraform.d/plugins && \
+    curl https://releases.hashicorp.com/terraform-provider-rundeck/${RUNDECK_VERSION}/${RUNDECK_FILE} > ${RUNDECK_FILE} && \
+    echo "${RUNDECK_SHA}  ${RUNDECK_FILE}" | sha256sum -c - && \
+    unzip ${RUNDECK_FILE} -d ~/.terraform.d/plugins && \
+    rm -f ${RUNDECK_FILE}
+
 ENV CONSUL_VERSION=2.2.0
 ENV CONSUL_FILE=terraform-provider-consul_${CONSUL_VERSION}_linux_amd64.zip
 ENV CONSUL_SHA=c2e813c49557c2f997bdd0df0b2b9d17bdf456d251ab8eff30b76e7827fece3c
