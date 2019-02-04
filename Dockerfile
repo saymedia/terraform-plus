@@ -30,6 +30,16 @@ RUN mkdir -p ~/.terraform.d/plugins && \
     unzip ${RUNDECK_FILE} -d ~/.terraform.d/plugins && \
     rm -f ${RUNDECK_FILE}
 
+ENV TEMPLATE_VERSION=1.0.0
+ENV TEMPLATE_FILE=terraform-provider-template_${TEMPLATE_VERSION}_linux_amd64.zip
+ENV TEMPLATE_SHA=f54c2764bd4d4c62c1c769681206dde7aa94b64b814a43cb05680f1ec8911977
+
+RUN mkdir -p ~/.terraform.d/plugins && \
+    curl https://releases.hashicorp.com/terraform-provider-template/${TEMPLATE_VERSION}/${TEMPLATE_FILE} > ${TEMPLATE_FILE} && \
+    echo "${TEMPLATE_SHA}  ${TEMPLATE_FILE}" | sha256sum -c - && \
+    unzip ${TEMPLATE_FILE} -d ~/.terraform.d/plugins && \
+    rm -f ${TEMPLATE_FILE}
+
 ENV CONSUL_VERSION=2.2.0
 ENV CONSUL_FILE=terraform-provider-consul_${CONSUL_VERSION}_linux_amd64.zip
 ENV CONSUL_SHA=c2e813c49557c2f997bdd0df0b2b9d17bdf456d251ab8eff30b76e7827fece3c
