@@ -60,3 +60,13 @@ RUN mkdir -p ~/.terraform.d/plugins && \
     unzip ${AWS_FILE} -d ~/.terraform.d/plugins && \
     rm -f ${AWS_FILE}
 
+ENV MYSQL_VERSION=1.5.1
+ENV MYSQL_FILE=terraform-provider-mysql_${MYSQL_VERSION}_linux_amd64.zip
+ENV MYSQL_SHA=3f375d9d7f91e580f33ecdd4131d91aef75dbf56ffeb4d67f1b173ae1cc2cc3b
+
+RUN mkdir -p ~/.terraform.d/plugins && \
+    curl https://releases.hashicorp.com/terraform-provider-mysql/${MYSQL_VERSION}/${MYSQL_FILE} > ${MYSQL_FILE} && \
+    echo "${MYSQL_SHA}  ${MYSQL_FILE}" | sha256sum -c - && \
+    unzip ${MYSQL_FILE} -d ~/.terraform.d/plugins && \
+    rm -f ${MYSQL_FILE}
+
