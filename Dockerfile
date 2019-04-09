@@ -70,3 +70,12 @@ RUN mkdir -p ~/.terraform.d/plugins && \
     unzip ${MYSQL_FILE} -d ~/.terraform.d/plugins && \
     rm -f ${MYSQL_FILE}
 
+ENV NULL_VERSION=2.1.0
+ENV NULL_FILE=terraform-provider-null_${NULL_VERSION}_linux_amd64.zip
+ENV NULL_SHA=b27db66404ea0704fb076ef26bb5b5c556a31b81a8b2302ec705a7e46d93d3e0
+
+RUN mkdir -p ~/.terraform.d/plugins && \
+    curl https://releases.hashicorp.com/terraform-provider-null/${NULL_VERSION}/${NULL_FILE} > ${NULL_FILE} && \
+    echo "${NULL_SHA}  ${NULL_FILE}" | sha256sum -c - && \
+    unzip ${NULL_FILE} -d ~/.terraform.d/plugins && \
+    rm -f ${NULL_FILE}
